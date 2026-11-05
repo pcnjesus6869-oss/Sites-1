@@ -1,0 +1,135 @@
+/* Vitrine estilo "link na bio": pensada para 375–430 px, abrindo para 3 colunas no computador.
+   Cores da logo da Criare. */
+:root {
+  --primaria: #06494d;      /* teal escuro da marca */
+  --primaria-2: #078384;
+  --fundo: #f6f8f6;
+  --cartao: #ffffff;
+  --texto: #0c3b40;
+  --suave: #5b7476;
+  --borda: #e3ebe9;
+  --acao: #128c4f;          /* WhatsApp */
+  --acao-hover: #0d7340;
+  --destaque: #b5bd05;      /* limão da logo */
+  --promo: #c2410c;         /* desconto e preço em oferta */
+  --raio: 16px;
+  --raio-p: 12px;
+  --sombra: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.06);
+  --lado: 16px;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html.travado { overflow: hidden; }
+body { margin: 0; background: var(--fundo); color: var(--texto); font: 400 1rem/1.5 "Figtree", "Segoe UI", system-ui, sans-serif; overflow-x: hidden; }
+h1, h2, h3, p { margin: 0; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid var(--destaque); outline-offset: 2px; }
+
+.pagina { max-width: 480px; margin: 0 auto; padding: calc(28px + env(safe-area-inset-top, 0px)) var(--lado) 0; }
+
+/* Botões: leve aumento ao passar o mouse, como pede o guia de estilo */
+.botao { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 20px; border: 0; border-radius: var(--raio-p); font: 700 1rem/1.2 "Figtree", "Segoe UI", system-ui, sans-serif; cursor: pointer; transition: transform .2s ease, background-color .2s ease; }
+.botao:hover { transform: scale(1.02); }
+.botao:active { transform: scale(.98); }
+.botao-whats { background: var(--acao); color: #fff; box-shadow: 0 6px 16px -4px rgba(18,140,79,.5); }
+.botao-whats:hover { background: var(--acao-hover); }
+
+/* 1. Perfil */
+.perfil { display: grid; justify-items: center; gap: 6px; text-align: center; }
+.avatar { width: 96px; height: 96px; border-radius: 50%; background: #fff; border: 3px solid #fff; box-shadow: 0 0 0 1px var(--borda), var(--sombra); }
+.perfil h1 { margin-top: 8px; font-size: 1.375rem; font-weight: 800; letter-spacing: -.01em; }
+.usuario { font-size: .9375rem; font-weight: 600; color: var(--primaria-2); }
+.bio { max-width: 30em; color: var(--suave); font-size: .9375rem; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.perfil .botao-whats { width: 100%; margin-top: 12px; font-size: 1.0625rem; min-height: 54px; }
+
+/* 2. Banners 16:9 */
+.banners { margin-top: 24px; }
+.trilho { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; border-radius: var(--raio); box-shadow: var(--sombra); scrollbar-width: none; }
+.trilho::-webkit-scrollbar { display: none; }
+.banner { position: relative; flex: 0 0 100%; aspect-ratio: 16 / 9; scroll-snap-align: start; overflow: hidden; color: #fff; }
+.banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; transition: transform .2s ease; }
+.banner:hover img { transform: scale(1.02); }
+.banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,40,43,.92) 0%, rgba(4,40,43,.72) 45%, rgba(4,40,43,.1) 100%); }
+.banner-texto { position: absolute; z-index: 1; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 6px; padding: 16px 20px; width: 68%; }
+.banner-rotulo { padding: 3px 10px; border-radius: 999px; background: var(--destaque); color: var(--primaria); font-size: .6875rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.banner strong { font-size: clamp(1.0625rem, 5vw, 1.375rem); line-height: 1.2; }
+.banner-botao { margin-top: 4px; font-size: .875rem; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.pontos { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+.pontos button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; background: #c5d3d1; cursor: pointer; transition: width .2s, background-color .2s; }
+.pontos button[aria-current] { width: 22px; background: var(--primaria); }
+/* Área de toque maior que o ponto visível */
+.pontos button { position: relative; }
+.pontos button::before { content: ""; position: absolute; inset: -12px -4px; }
+
+/* Títulos */
+.titulo { font-size: 1.25rem; font-weight: 800; letter-spacing: -.01em; }
+section > .titulo, .titulo-linha { margin: 32px 0 12px; }
+.titulo-linha { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 10px; }
+.validade { font-size: .8125rem; color: var(--promo); font-weight: 600; }
+
+/* 3. Catálogos */
+.catalogos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.catalogo { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--raio-p); box-shadow: var(--sombra); color: #fff; transition: transform .2s ease; }
+.catalogo:hover { transform: scale(1.02); }
+.catalogo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.catalogo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(4,40,43,.88) 0%, rgba(4,40,43,.35) 55%, rgba(4,40,43,.15) 100%); }
+.catalogo span { position: absolute; z-index: 1; left: 12px; right: 12px; bottom: 10px; display: grid; }
+.catalogo strong { font-size: 1.0625rem; line-height: 1.2; }
+.catalogo small { font-size: .75rem; opacity: .85; }
+
+/* 4. Vitrine */
+.grade { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.produto { display: flex; flex-direction: column; padding: 8px; border-radius: var(--raio); background: var(--cartao); border: 1px solid var(--borda); box-shadow: var(--sombra); }
+.produto-foto { position: relative; overflow: hidden; border-radius: var(--raio-p); background: var(--borda); margin-bottom: 10px; }
+.produto-foto img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.selo { position: absolute; top: 8px; left: 8px; padding: 3px 9px; border-radius: 999px; background: var(--primaria); color: #fff; font-size: .75rem; font-weight: 800; }
+.selo-desconto { background: var(--promo); font-size: .8125rem; }
+.produto h3 { padding: 0 2px; font-size: .9375rem; font-weight: 700; line-height: 1.25; }
+.detalhe { padding: 2px 2px 0; font-size: .8125rem; color: var(--suave); line-height: 1.35; }
+.preco { display: grid; padding: 8px 2px 10px; margin-top: auto; }
+.preco s { font-size: .8125rem; color: var(--suave); }
+.preco strong { font-size: 1.1875rem; font-weight: 800; color: var(--promo); line-height: 1.2; }
+.preco-consulte { font-size: .875rem; font-weight: 700; color: var(--primaria-2); }
+.botao-pedir { width: 100%; min-height: 44px; padding: 8px 10px; background: var(--acao); color: #fff; font-size: .875rem; }
+.botao-pedir:hover { background: var(--acao-hover); }
+
+/* 5. Rodapé */
+.rodape { display: grid; justify-items: center; gap: 10px; margin-top: 40px; padding: 28px 0 calc(100px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--borda); text-align: center; }
+.redes { display: flex; gap: 12px; }
+.redes a { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--cartao); border: 1px solid var(--borda); color: var(--primaria); box-shadow: var(--sombra); transition: transform .2s ease; }
+.redes a:hover { transform: scale(1.02); }
+.rodape address { font-style: normal; font-size: .875rem; font-weight: 600; margin-top: 4px; }
+.politica { max-width: 34em; font-size: .75rem; color: var(--suave); }
+
+/* WhatsApp fixo no rodapé da tela */
+.whats-fixo { position: fixed; z-index: 20; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 999px; background: var(--acao); color: #fff; font-weight: 800; box-shadow: 0 10px 24px -6px rgba(4,40,43,.45); transform: translate(-50%, 140%); transition: transform .25s ease; white-space: nowrap; }
+.whats-fixo.visivel { transform: translate(-50%, 0); }
+
+/* Catálogo em tela cheia */
+.folha { width: 100%; max-width: 100%; height: 100%; max-height: 100%; margin: 0; padding: 0 var(--lado) calc(100px + env(safe-area-inset-bottom, 0px)); border: 0; background: var(--fundo); color: var(--texto); overflow-y: auto; }
+.folha::backdrop { background: rgba(4,40,43,.4); }
+.folha[open] { animation: entra .22s ease-out; }
+@keyframes entra { from { transform: translateY(24px); opacity: 0; } }
+.folha-topo { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 10px; margin: 0 calc(-1 * var(--lado)) 14px; padding: calc(10px + env(safe-area-inset-top, 0px)) var(--lado) 10px; background: rgba(246,248,246,.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borda); }
+.folha-topo h2 { font-size: 1.125rem; font-weight: 800; line-height: 1.2; }
+.folha-topo p { font-size: .8125rem; color: var(--suave); }
+.fechar { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--borda); border-radius: 50%; background: var(--cartao); color: var(--primaria); cursor: pointer; }
+.folha .grade { max-width: 960px; margin: 0 auto; }
+
+/* Computador: 3 colunas */
+@media (min-width: 760px) {
+  .pagina { max-width: 960px; padding-inline: 24px; }
+  .perfil .botao-whats { width: auto; padding-inline: 40px; }
+  .catalogos, .grade { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .banner-texto { width: 52%; padding: 32px 40px; gap: 10px; }
+  .banner strong { font-size: 2rem; }
+  .folha { padding-inline: 24px; }
+  .folha-topo { margin-inline: -24px; padding-inline: max(24px, calc((100% - 960px) / 2)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+  .trilho { scroll-behavior: auto; }
+}

@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Criare Colchões | Descubra o colchão ideal para o seu sono, em Blumenau</title>
+<meta name="description" content="Responda ao questionário do sono e descubra o colchão ideal para o seu corpo. Criare Colchões, Rua Amazonas, 3815, Garcia, Blumenau.">
+<script>try{var t=localStorage.getItem('tema');document.documentElement.dataset.tema=t||(matchMedia('(prefers-color-scheme: dark)').matches?'escuro':'claro')}catch(e){document.documentElement.dataset.tema='claro'}</script>
+<link rel="icon" href="assets/logo-criare.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+
+<header class="topo">
+  <div class="envolve topo-linha">
+    <button type="button" id="abrir-menu" class="abrir-menu" aria-label="Abrir menu"><i></i><span>Menu</span></button>
+    <a class="marca" href="#inicio"><img src="assets/logo-criare-horizontal.svg" alt="Criare Colchões" width="150" height="40"></a>
+    <button type="button" id="tema" class="tema" role="switch" aria-checked="false" aria-label="Modo noite"><i></i></button>
+    <button type="button" class="botao botao-pequeno" data-abrir-quiz>Descobrir meu colchão</button>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="capa">
+    <svg class="cena" viewBox="0 0 1600 900" preserveAspectRatio="xMaxYMax slice" role="img" aria-label="Quarto com a cama de frente para a janela e prédios ao fundo">
+      <defs>
+        <linearGradient id="g-parede" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--c-parede-a)"/><stop offset="1" style="stop-color:var(--c-parede-b)"/></linearGradient>
+        <linearGradient id="g-ceu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--c-ceu-a)"/><stop offset="1" style="stop-color:var(--c-ceu-b)"/></linearGradient>
+        <linearGradient id="g-piso" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--c-piso-a)"/><stop offset="1" style="stop-color:var(--c-piso-b)"/></linearGradient>
+        <linearGradient id="g-edredom" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--c-cama-a)"/><stop offset="1" style="stop-color:var(--c-cama-b)"/></linearGradient>
+        <linearGradient id="g-cortina" x1="0" y1="0" x2="1" y2="0" spreadMethod="repeat" gradientUnits="userSpaceOnUse" gradientTransform="scale(.03 1)"><stop offset="0" style="stop-color:var(--c-cortina-a)"/><stop offset=".5" style="stop-color:var(--c-cortina-b)"/><stop offset="1" style="stop-color:var(--c-cortina-a)"/></linearGradient>
+        <radialGradient id="g-abajur"><stop offset="0" style="stop-color:#f6d675;stop-opacity:.55"/><stop offset="1" style="stop-color:#f6d675;stop-opacity:0"/></radialGradient>
+        <clipPath id="vidro"><rect x="660" y="96" width="780" height="464"/></clipPath>
+      </defs>
+      <rect width="1600" height="680" fill="url(#g-parede)"/>
+      <rect y="660" width="1600" height="240" fill="url(#g-piso)"/>
+      <rect y="652" width="1600" height="12" class="c-rodape"/>
+      <!-- janela -->
+      <g clip-path="url(#vidro)">
+        <rect x="660" y="96" width="780" height="464" fill="url(#g-ceu)"/>
+        <g class="c-dia"><ellipse cx="820" cy="170" rx="90" ry="20" fill="#fff" opacity=".8"/><ellipse cx="880" cy="155" rx="60" ry="18" fill="#fff" opacity=".8"/><ellipse cx="1290" cy="210" rx="110" ry="16" fill="#fff" opacity=".6"/></g>
+        <g class="c-noite"><circle cx="1290" cy="170" r="30" fill="#f1ecd0"/><g fill="#f1ecd0"><circle cx="760" cy="140" r="2"/><circle cx="930" cy="125" r="1.6"/><circle cx="1060" cy="170" r="2"/><circle cx="1170" cy="120" r="1.6"/><circle cx="850" cy="200" r="1.4"/><circle cx="1390" cy="130" r="1.6"/></g></g>
+        <g id="predios"></g>
+      </g>
+      <path class="c-esquadria" d="M650 86h800v484H650zM660 96v464h780V96zM1046 96h8v464h-8z" fill-rule="evenodd"/>
+      <rect x="636" y="568" width="828" height="14" class="c-esquadria"/>
+      <!-- cortinas -->
+      <rect x="560" y="60" width="104" height="600" fill="url(#g-cortina)"/>
+      <rect x="1436" y="60" width="104" height="600" fill="url(#g-cortina)"/>
+      <rect x="540" y="52" width="1020" height="8" class="c-esquadria"/>
+      <!-- criado-mudo e abajur -->
+      <g transform="translate(1050 0)">
+        <circle class="c-noite" cx="470" cy="500" r="190" fill="url(#g-abajur)"/>
+        <rect x="400" y="600" width="140" height="150" rx="4" class="c-movel"/>
+        <rect x="412" y="640" width="116" height="3" class="c-movel-linha"/>
+        <rect x="464" y="530" width="10" height="70" class="c-movel-linha"/>
+        <path d="M430 530h78l-16-62h-46z" class="c-abajur"/>
+      </g>
+      <!-- luz que entra pela janela -->
+      <path class="c-luz" d="M760 664h600l240 236H560z"/>
+      <!-- cama: vista da cabeceira em direção à janela -->
+      <path d="M770 690 1330 690 1356 760 744 760z" class="c-cama-pe"/>
+      <path d="M790 610Q1050 590 1310 610L1540 900H560z" fill="url(#g-edredom)"/>
+      <path d="M770 640Q1050 618 1330 640L1362 690Q1050 664 738 690z" class="c-manta"/>
+      <path d="M640 900Q660 780 830 772Q980 770 1010 880L1014 900z" class="c-travesseiro"/>
+      <path d="M1040 900Q1050 770 1220 772Q1400 780 1440 900z" class="c-travesseiro c-t2"/>
+    </svg>
+    <div class="envolve capa-conteudo">
+      <h1>Qual colchão combina com o seu jeito de dormir?</h1>
+      <button type="button" class="botao botao-capa" data-abrir-quiz>Começar o questionário</button>
+    </div>
+  </section>
+
+  <button type="button" class="letreiro" data-abrir-quiz aria-label="Feito pra você. Descubra o seu colchão ideal no questionário">
+    <span class="letreiro-trilho" aria-hidden="true">
+      <span class="letreiro-grupo"><span>Feito pra você</span><i></i><b>Descubra o seu colchão ideal</b><i></i><span>Feito pra você</span><i></i><b>Descubra o seu colchão ideal →</b><i></i></span>
+      <span class="letreiro-grupo"><span>Feito pra você</span><i></i><b>Descubra o seu colchão ideal</b><i></i><span>Feito pra você</span><i></i><b>Descubra o seu colchão ideal →</b><i></i></span>
+    </span>
+  </button>
+
+  <section id="como" class="como">
+    <div class="envolve como-interno">
+      <img class="como-foto" src="https://images.unsplash.com/photo-1552650272-b8a34e21bc4b?w=1400&q=75&auto=format&fit=crop" alt="Mulher se alongando na cama ao acordar" loading="lazy">
+      <div class="como-texto">
+        <h2>Como funciona</h2>
+        <ol class="passos">
+          <li><h3>Conte como você dorme</h3><p>Peso, posição, calor durante a noite e como você acorda. Você não precisa entender de colchão.</p></li>
+          <li><h3>Veja a sua indicação</h3><p>O colchão vai sendo montado na tela, camada por camada, com o motivo de cada escolha.</p></li>
+          <li><h3>Deite e teste na loja</h3><p>Envie o resultado pelo WhatsApp, tire suas dúvidas e sinta a diferença antes de decidir.</p></li>
+        </ol>
+        <button type="button" class="botao botao-claro" data-abrir-quiz>Começar o questionário</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="produtos" class="secao secao-faixa">
+    <div class="envolve">
+      <div class="titulo-linha">
+        <h2>Principais produtos</h2>
+        <a class="link-forte" href="produtos.html">Ver todos os produtos</a>
+      </div>
+      <ul id="destaques" class="cards cards-4"></ul>
+      <p class="nota">Fotos ilustrativas.</p>
+    </div>
+  </section>
+
+  <section id="sob-medida" class="secao">
+    <div class="envolve dividido">
+      <div class="dividido-texto">
+        <h2>Cada corpo pede um colchão diferente</h2>
+        <p>O ponto forte da Criare é adequar o colchão à necessidade de cada cliente. A densidade é um bom exemplo: a mesma espuma que é confortável para uma pessoa pode afundar com outra. Por isso, o questionário começa pelo seu peso.</p>
+        <button type="button" class="botao" data-abrir-quiz>Descobrir meu colchão</button>
+      </div>
+      <div class="tabela-caixa">
+        <table>
+          <caption>Espuma: densidade por peso</caption>
+          <thead><tr><th scope="col">Peso de quem pesa mais</th><th scope="col">Densidade</th></tr></thead>
+          <tbody id="tabela-densidades"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXEMPLOS FICTÍCIOS: substituir por avaliações reais de clientes antes de publicar -->
+  <section id="avaliacoes" class="avaliacoes">
+    <div class="envolve">
+      <h2>Quem dorme em um Criare conta</h2>
+      <ul class="depoimentos">
+        <li>
+          <span class="iniciais" aria-hidden="true">C.R</span>
+          <h3>Camila Ramos</h3>
+          <p>Eu não sabia nem por onde começar. Fiz o questionário, levei o resultado na loja e saí com a certeza de que era o colchão certo para mim.</p>
+          <span class="aspas" aria-hidden="true">”</span>
+        </li>
+        <li>
+          <span class="iniciais" aria-hidden="true">R.T</span>
+          <h3>Rogério Teixeira</h3>
+          <p>Sou alto e os colchões comuns ficavam curtos. Fizeram na medida que eu precisava, e o atendimento foi atencioso do início à entrega.</p>
+          <span class="aspas" aria-hidden="true">”</span>
+        </li>
+        <li>
+          <span class="iniciais" aria-hidden="true">P.L</span>
+          <h3>Patrícia Lemes</h3>
+          <p>Meu marido se mexe muito à noite e eu sempre acordava. Com a orientação que recebemos, finalmente dormimos a noite inteira.</p>
+          <span class="aspas" aria-hidden="true">”</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <button type="button" class="letreiro" data-abrir-quiz aria-label="Feito pra você. Descubra o seu colchão ideal no questionário">
+    <span class="letreiro-trilho" aria-hidden="true">
+      <span class="letreiro-grupo"><span>Feito pra você</span><i></i><b>Descubra o seu colchão ideal</b><i></i><span>Feito pra você</span><i></i><b>Descubra o seu colchão ideal →</b><i></i></span>
+      <span class="letreiro-grupo"><span>Feito pra você</span><i></i><b>Descubra o seu colchão ideal</b><i></i><span>Feito pra você</span><i></i><b>Descubra o seu colchão ideal →</b><i></i></span>
+    </span>
+  </button>
+
+  <section id="loja" class="loja">
+    <div class="envolve loja-linha">
+      <div>
+        <h2>Venha deitar e sentir a diferença</h2>
+        <address class="contato">
+          <p>Rua Amazonas, 3815, Garcia<br>Blumenau, SC, 89022-006</p>
+          <p>(47) 99215-6344</p>
+        </address>
+      </div>
+      <a class="botao botao-claro" data-wa="Olá! Gostaria de saber o horário de atendimento da loja.">Falar no WhatsApp</a>
+    </div>
+    <iframe class="mapa" title="Localização da Criare Colchões no Google Maps" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.4840870760877!2d-49.071134199999996!3d-26.9515654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94df1970e1fbca15%3A0x136784d418e3645e!2sCriare%20colch%C3%B5es!5e0!3m2!1spt-BR!2sbr!4v1793596232703!5m2!1spt-BR!2sbr" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="envolve rodape-grade">
+    <div class="rodape-marca">
+      <img src="assets/logo-criare-horizontal.svg" alt="Criare Colchões" width="150" height="40">
+      <p>Feito pra você.</p>
+    </div>
+    <nav aria-label="Rodapé">
+      <h3>Navegue</h3>
+      <a href="index.html">Início</a>
+      <a href="produtos.html">Produtos</a>
+      <a href="tipos.html">Tipos de colchão</a>
+      <a href="index.html#questionario">Questionário do sono</a>
+    </nav>
+    <div>
+      <h3>Contato</h3>
+      <p>Rua Amazonas, 3815, Garcia<br>Blumenau, SC, 89022-006</p>
+      <p>(47) 99215-6344</p>
+    </div>
+    <div>
+      <h3>Redes sociais</h3>
+      <a class="insta" href="https://www.instagram.com/criarecolchoeseacessorios/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg>
+        <span>Siga no Instagram</span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<a class="whats" data-wa="Olá! Vim pelo site da Criare e gostaria de falar com um especialista.">WhatsApp</a>
+
+<div id="quiz" class="quiz" role="dialog" aria-modal="true" aria-label="Questionário do sono" hidden>
+  <div class="quiz-topo">
+    <button type="button" id="voltar" class="botao-texto" hidden>Voltar</button>
+    <span id="contador" class="contador" aria-live="polite"></span>
+    <button type="button" id="fechar" class="botao-texto">Fechar</button>
+  </div>
+  <div class="progresso"><div id="progresso-barra"></div></div>
+  <div class="quiz-corpo">
+    <div id="palco" class="palco"></div>
+    <aside id="ficha" class="ficha" aria-label="Seu colchão até agora">
+      <p class="ficha-titulo">Seu colchão</p>
+      <div class="corte">
+        <div class="camada c-tecido" id="c-tecido"><span class="c-nome">Tecido</span><span class="c-valor">A definir</span></div>
+        <div class="camada c-conforto" id="c-conforto"><span class="c-nome">Conforto</span><span class="c-valor">A definir</span></div>
+        <div class="camada c-nucleo" id="c-nucleo"><span class="c-nome">Núcleo</span><span class="c-valor">A definir</span></div>
+      </div>
+      <dl class="ficha-dados">
+        <div><dt>Firmeza</dt><dd id="m-firmeza">A definir</dd></div>
+        <div><dt>Medida</dt><dd id="m-medida">A definir</dd></div>
+      </dl>
+    </aside>
+  </div>
+</div>
+
+<script src="regras.js"></script>
+<script src="produtos.js"></script>
+<script src="app.js?v=2"></script>
+</body>
+</html>

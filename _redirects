@@ -1,0 +1,8 @@
+# Regras de endereço do Netlify (uma por linha: origem  destino  código)
+
+# QR Code da fachada. Para mudar para onde ele leva, troque só o destino desta linha.
+# 302 = temporário: o celular não memoriza o destino, então a troca vale na hora.
+/qr          /vitrine/   302
+
+# Este guia é só para quem edita o site; não fica visível para o público.
+/README.md   /           302!
