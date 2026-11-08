@@ -7,6 +7,7 @@ Três páginas em um só site, todas em HTML puro, sem instalação nem etapa de
 | `criarecolchoes.com.br` | raiz (`index.html`, `produtos.html`, `tipos.html`) | Site principal, com o questionário do colchão ideal |
 | `criarecolchoes.com.br/catalogo` | `catalogo/` | Catálogo institucional |
 | `criarecolchoes.com.br/vitrine` | `vitrine/` | Mini site de vendas (link na bio) |
+| `/vellarsemijoias` | `vellarsemijoias/` | Mini site Vellar Semijoias (QR Code pós-caixa). Conteúdo em `vellarsemijoias/js/data.js`; código-fonte em github.com/pcnjesus6869-oss/Sites---2 |
 | `criarecolchoes.com.br/qr` | `_redirects` | Endereço do QR Code da fachada. Leva para a vitrine |
 
 ---
