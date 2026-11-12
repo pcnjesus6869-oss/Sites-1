@@ -9,7 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&display=swap">
-<link rel="stylesheet" href="estilo.css">
+<link rel="stylesheet" href="estilo.css?v=2">
+<link rel="stylesheet" href="../questionario.css?v=1">
 </head>
 <body>
 
@@ -18,6 +19,7 @@
     <a class="marca" href="#inicio"><img src="assets/logo-criare-horizontal.svg" alt="Criare Colchões" width="150" height="40"></a>
     <nav class="menu" aria-label="Principal">
       <a href="#sobre">Sobre</a>
+      <a href="#sob-medida">Colchão ideal</a>
       <a href="#diferenciais">Diferenciais</a>
       <a href="#catalogo">Catálogo</a>
       <a href="#contato">Contato</a>
@@ -29,12 +31,13 @@
 <main id="inicio">
   <!-- 1. Abertura -->
   <section class="abertura">
-    <img class="abertura-foto" src="https://images.unsplash.com/photo-1582582621959-48d27397dc69?w=2200&q=75&auto=format&fit=crop" alt="Quarto aconchegante com cama estofada e cabeceira bege" fetchpriority="high">
+    <img class="abertura-foto" src="assets/capa-quarto.jpg" alt="Mulher se espreguiçando, feliz, deitada em uma cama com cabeceira estofada bege em um quarto aconchegante" width="669" height="535" fetchpriority="high">
     <div class="envolve abertura-texto">
       <h1>Conheça a <em>Criare Colchões</em></h1>
       <p>Mais do que colchões, uma experiência de conforto e bem-estar.</p>
       <div class="abertura-acoes">
         <a class="botao" href="#catalogo">Ver o catálogo</a>
+        <button type="button" class="botao botao-claro" data-abrir-quiz>Começar o questionário</button>
         <a class="botao botao-vidro" data-wa="Olá! Vim pelo catálogo da Criare e gostaria de atendimento.">Falar no WhatsApp</a>
       </div>
     </div>
@@ -75,6 +78,24 @@
         </li>
       </ul>
       <p class="fechamento">Criare Colchões — <em>Seu descanso merece essa escolha.</em></p>
+    </div>
+  </section>
+
+  <!-- 3b. Sob medida: densidade por peso (tabela vem de regras.js, igual ao site principal) -->
+  <section id="sob-medida" class="secao">
+    <div class="envolve dividido">
+      <div class="dividido-texto">
+        <h2>Cada corpo pede um colchão diferente</h2>
+        <p>O ponto forte da Criare é adequar o colchão à necessidade de cada cliente. A densidade é um bom exemplo: a mesma espuma que é confortável para uma pessoa pode afundar com outra. Por isso, o questionário começa pelo seu peso.</p>
+        <button type="button" class="botao" data-abrir-quiz>Descobrir meu colchão</button>
+      </div>
+      <div class="tabela-caixa">
+        <table>
+          <caption>Espuma: densidade por peso</caption>
+          <thead><tr><th scope="col">Peso de quem pesa mais</th><th scope="col">Densidade</th></tr></thead>
+          <tbody id="tabela-densidades"></tbody>
+        </table>
+      </div>
     </div>
   </section>
 
@@ -119,6 +140,33 @@
   <span>WhatsApp</span>
 </a>
 
+<!-- Questionário do sono: o mesmo do site principal (regras.js + questionario.js na raiz) -->
+<div id="quiz" class="quiz" role="dialog" aria-modal="true" aria-label="Questionário do sono" hidden>
+  <div class="quiz-topo">
+    <button type="button" id="voltar" class="botao-texto" hidden>Voltar</button>
+    <span id="contador" class="contador" aria-live="polite"></span>
+    <button type="button" id="fechar" class="botao-texto">Fechar</button>
+  </div>
+  <div class="progresso"><div id="progresso-barra"></div></div>
+  <div class="quiz-corpo">
+    <div id="palco" class="palco"></div>
+    <aside id="ficha" class="ficha" aria-label="Seu colchão até agora">
+      <p class="ficha-titulo">Seu colchão</p>
+      <div class="corte">
+        <div class="camada c-tecido" id="c-tecido"><span class="c-nome">Tecido</span><span class="c-valor">A definir</span></div>
+        <div class="camada c-conforto" id="c-conforto"><span class="c-nome">Conforto</span><span class="c-valor">A definir</span></div>
+        <div class="camada c-nucleo" id="c-nucleo"><span class="c-nome">Núcleo</span><span class="c-valor">A definir</span></div>
+      </div>
+      <dl class="ficha-dados">
+        <div><dt>Firmeza</dt><dd id="m-firmeza">A definir</dd></div>
+        <div><dt>Medida</dt><dd id="m-medida">A definir</dd></div>
+      </dl>
+    </aside>
+  </div>
+</div>
+
 <script src="catalogo.js"></script>
+<script src="../regras.js"></script>
+<script src="../questionario.js?v=1"></script>
 </body>
 </html>

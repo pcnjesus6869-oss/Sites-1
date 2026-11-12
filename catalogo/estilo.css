@@ -11,6 +11,10 @@
   --creme: #f1f5ef;
   --display: "Fraunces", Georgia, "Times New Roman", serif;
   --corpo: "Figtree", "Segoe UI", system-ui, sans-serif;
+  /* usadas pelo questionário compartilhado (../questionario.css) */
+  --faixa: #eef5f2;
+  --cartao: #ffffff;
+  --titulo: #06494d;
   color-scheme: light;
 }
 
@@ -51,15 +55,37 @@ a { color: inherit; }
 .menu a:hover { color: var(--teal-escuro); }
 
 /* 1. Abertura */
-.abertura { position: relative; display: flex; align-items: flex-end; min-height: min(760px, 88vh); background: var(--teal-fundo); overflow: hidden; }
-.abertura-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: aproxima 14s ease-out both; }
+/* A foto ocupa o lado direito até a borda e se dissolve no teal à esquerda, onde fica o texto:
+   a pessoa na cama nunca fica atrás do título. */
+.abertura { position: relative; display: flex; align-items: center; min-height: min(720px, 86vh); background: var(--teal-fundo); overflow: hidden; }
+.abertura-foto { position: absolute; top: 0; right: 0; width: 66%; height: 100%; object-fit: cover; object-position: 55% 45%; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%); mask-image: linear-gradient(90deg, transparent 0%, #000 34%); animation: aproxima 14s ease-out both; }
 @keyframes aproxima { from { transform: scale(1.08); } to { transform: none; } }
-.abertura::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(4,40,43,.88) 0%, rgba(4,40,43,.45) 45%, rgba(4,40,43,.05) 80%); }
+.abertura::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(4,40,43,.55) 0%, rgba(4,40,43,0) 35%); }
 .abertura-texto { position: relative; z-index: 1; width: 100%; padding-block: 72px; color: #fff; display: grid; gap: 20px; justify-items: start; }
-.abertura h1 { font-size: clamp(2.75rem, 6.4vw, 5.5rem); max-width: 12em; }
+.abertura-texto > * { max-width: min(36rem, 46%); }
+/* os três botões cabem numa linha: podem avançar sobre a parte esmaecida da foto */
+.abertura-texto > .abertura-acoes { max-width: none; }
+.abertura h1 { font-size: clamp(2.75rem, 5.6vw, 5rem); }
 .abertura h1 em { color: #dfe78a; }
 .abertura-texto > p { font-size: clamp(1.125rem, 1.8vw, 1.375rem); max-width: 34em; color: #e3f1ef; }
 .abertura-acoes { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+
+/* 3b. Sob medida: densidade por peso */
+.dividido { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 6vw, 88px); align-items: center; }
+.dividido-texto { display: grid; gap: 20px; justify-items: start; }
+.dividido-texto p { color: var(--suave); max-width: 34em; }
+.tabela-caixa { overflow-x: auto; padding: clamp(20px, 3vw, 32px); background: #fff; border: 1px solid var(--linha); border-radius: 16px; }
+.tabela-caixa table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tabela-caixa caption { text-align: left; padding-bottom: 14px; font: 400 1.5rem/1.2 var(--display); color: var(--teal-fundo); }
+.tabela-caixa th { text-align: left; font-size: .8125rem; font-weight: 500; color: var(--suave); padding: 8px 0; border-bottom: 2px solid var(--teal); }
+.tabela-caixa td { padding: 13px 0; border-bottom: 1px solid var(--linha); }
+.tabela-caixa tr:last-child td { border-bottom: 0; }
+.tabela-caixa th:last-child, .tabela-caixa td:last-child { text-align: right; }
+.tabela-caixa td:last-child { font-weight: 700; font-size: 1.125rem; color: var(--teal-escuro); }
+
+/* Questionário: no catálogo os títulos usam a serifa da página */
+.quiz .q-titulo { font: 400 clamp(1.75rem, 3.2vw, 2.5rem)/1.15 var(--display); }
+.quiz .opcao { border-radius: 14px; }
 
 /* 2. Sobre */
 .sobre { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(36px, 7vw, 96px); align-items: center; }
@@ -118,8 +144,14 @@ a { color: inherit; }
 .whats:hover { background: #0d7340; }
 
 @media (max-width: 960px) {
+  /* Celular e tablet: foto inteira em cima, dissolvendo no teal; texto logo abaixo */
+  .abertura { flex-direction: column; align-items: stretch; min-height: 0; }
+  .abertura-foto { position: relative; width: 100%; height: auto; aspect-ratio: 5 / 4; object-position: center; -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, #000 70%, transparent 100%); }
+  .abertura::after { display: none; }
+  .abertura-texto { margin-top: -40px; padding-bottom: 56px; }
+  .abertura-texto > * { max-width: 100%; }
   .grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cartoes, .sobre { grid-template-columns: minmax(0, 1fr); }
+  .cartoes, .sobre, .dividido { grid-template-columns: minmax(0, 1fr); }
   .sobre-foto { max-width: 420px; }
   .rodape-grade { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .rodape-logo { grid-column: 1 / -1; }
@@ -132,8 +164,7 @@ a { color: inherit; }
   .atalhos { top: 104px; }
   html { scroll-padding-top: 118px; }
   .grade { grid-template-columns: minmax(0, 1fr); }
-  .abertura { min-height: 600px; }
-  .abertura-texto { padding-block: 48px; }
+  .abertura-texto { padding-block: 0 48px; }
   .rodape-grade { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .whats span { display: none; }
   .whats { padding: 14px; }
