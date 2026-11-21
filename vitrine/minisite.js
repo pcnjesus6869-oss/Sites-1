@@ -1,6 +1,7 @@
 /* Monta a página a partir de produtos.js. Para atualizar o catálogo, edite só aquele arquivo. */
 const real = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-const foto = nome => `fotos/${nome}.webp`;
+// Produto sem foto: mostra a logo da loja no lugar
+const foto = nome => nome ? `fotos/${nome}.webp` : 'assets/logo-criare.svg';
 const linkWhats = texto => `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(texto)}`;
 const msgProduto = p => `Olá, tenho interesse no produto ${p.nome} (${p.detalhe})${p.oferta ? ` por ${real(p.oferta.por)}` : ''}`;
 const MSG_GERAL = 'Olá! Vim pelo site da Criare e gostaria de atendimento.';
@@ -23,7 +24,7 @@ function preco(p) {
 }
 const cartao = p => `
   <li class="produto">
-    <div class="produto-foto">${selo(p)}<img src="${foto(p.foto)}" alt="${p.nome}" width="800" height="800" loading="lazy"></div>
+    <div class="produto-foto${p.foto ? '' : ' sem-foto'}">${selo(p)}<img src="${foto(p.foto)}" alt="${p.nome}" width="800" height="800" loading="lazy"></div>
     <h3>${p.nome}</h3>
     <p class="detalhe">${p.detalhe}</p>
     ${preco(p)}
@@ -61,8 +62,10 @@ $('catalogos').innerHTML = CATEGORIAS.map(c => `
   </a></li>`).join('');
 
 /* 4. Vitrine: produtos em oferta e marcados como destaque */
+const desconto = p => p.oferta ? 1 - p.oferta.por / p.oferta.de : -1;
 const destaques = CATEGORIAS.flatMap(c => c.produtos).filter(p => p.oferta || p.destaque)
-  .sort((a, b) => Boolean(b.oferta) - Boolean(a.oferta));
+  // Maior desconto primeiro; destaques sem desconto vão para o fim
+  .sort((a, b) => desconto(b) - desconto(a));
 $('vitrine').innerHTML = destaques.map(cartao).join('');
 $('validade').textContent = OFERTAS_ATE ? `Ofertas válidas até ${OFERTAS_ATE}` : '';
 

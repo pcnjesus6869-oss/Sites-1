@@ -85,6 +85,8 @@ section > .titulo, .titulo-linha { margin: 32px 0 12px; }
 .produto { display: flex; flex-direction: column; padding: 8px; border-radius: var(--raio); background: var(--cartao); border: 1px solid var(--borda); box-shadow: var(--sombra); }
 .produto-foto { position: relative; overflow: hidden; border-radius: var(--raio-p); background: var(--borda); margin-bottom: 10px; }
 .produto-foto img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.produto-foto.sem-foto { background: #fff; border: 1px solid var(--borda); }
+.produto-foto.sem-foto img { object-fit: contain; padding: 24%; opacity: .55; }
 .selo { position: absolute; top: 8px; left: 8px; padding: 3px 9px; border-radius: 999px; background: var(--primaria); color: #fff; font-size: .75rem; font-weight: 800; }
 .selo-desconto { background: var(--promo); font-size: .8125rem; }
 .produto h3 { padding: 0 2px; font-size: .9375rem; font-weight: 700; line-height: 1.25; }
