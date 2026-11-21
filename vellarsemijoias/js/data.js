@@ -7,7 +7,7 @@ window.VELLAR = {
 
   /* ---------- Contatos e redes (usados em todo o site) ---------- */
   whatsapp: {
-    number: '5547999728395',   // +55 47 9 9972-8395 — formato internacional, só números
+    number: '5547988530787',   // +55 47 9 8853-0787 (desde 18/11; antes 5547999728395) — formato internacional, só números
     conciergeMsg: 'Olá! Sou membro Vellar e preciso de ajuda com minha peça.',
     promoMsg: 'Olá! Vim pelo QR Code e quero aproveitar a promoção: ',
     partnerMsg: 'Olá! Quero saber mais sobre o benefício do parceiro: ',
@@ -62,18 +62,27 @@ window.VELLAR = {
     // Datas e duração dos vídeos são EXEMPLO — ajustar ao calendário real de gravação.
     month: 'Psicologia · Thiago Alves',
     intro: 'Um conteúdo novo por semana, só para membros. Mente, foco e a coragem de funcionar do seu jeito.',
+    // Cards da semana. Todos com o MESMO tamanho; podem intercalar artigos e vídeos.
+    // type: 'article' (abre o artigo em tela cheia; article = id do artigo abaixo)
+    //       'video' | 'audio' (abre o link em url)
     items: [
-      { week: 'Semana 1', stage: 'Identificação',   title: 'Como eu descobri que funcionava diferente?', format: 'Vídeo · 6 min', release: '2026-11-12', url: '' },
-      { week: 'Semana 2', stage: 'Aprofundamento',  title: 'O que ninguém me contou sobre construir uma empresa tendo TDAH?', format: 'Vídeo · 7 min', release: '2026-11-19', url: '' },
-      { week: 'Semana 3', stage: 'História pessoal', title: 'O que eu aprendi sobre aceitar minha própria forma de funcionar?', format: 'Áudio · 9 min', release: '2026-11-26', url: '' },
-      { week: 'Semana 4', stage: 'Conceito',        title: 'Eu transformei tudo isso em algo que quero carregar comigo.', format: 'Vídeo · 5 min', release: '2026-12-03', url: '' },
-      { week: 'Fim do ciclo', stage: 'Lançamento',  title: 'Coleção Foco', format: 'Acesso antecipado para membros', release: '2026-12-10', url: '' },
+      { type: 'article', article: 'originalidade', week: 'Leitura', stage: 'Thiago Alves Moreira', title: 'Originalidade: a coragem de ser aquilo que você é', format: 'Artigo · 2 min de leitura', release: '2026-11-12' },
     ],
 
-    // Artigos em menu suspenso (abaixo dos cards). Cada artigo abre e fecha ao tocar.
+    // GUARDADO para usar depois (ciclo Psicologia em vídeo). Para voltar, copie para items acima com type: 'video'.
+    itemsArchive: [
+      { type: 'video', week: 'Semana 1', stage: 'Identificação',   title: 'Como eu descobri que funcionava diferente?', format: 'Vídeo · 6 min', release: '2026-11-12', url: '' },
+      { type: 'video', week: 'Semana 2', stage: 'Aprofundamento',  title: 'O que ninguém me contou sobre construir uma empresa tendo TDAH?', format: 'Vídeo · 7 min', release: '2026-11-19', url: '' },
+      { type: 'audio', week: 'Semana 3', stage: 'História pessoal', title: 'O que eu aprendi sobre aceitar minha própria forma de funcionar?', format: 'Áudio · 9 min', release: '2026-11-26', url: '' },
+      { type: 'video', week: 'Semana 4', stage: 'Conceito',        title: 'Eu transformei tudo isso em algo que quero carregar comigo.', format: 'Vídeo · 5 min', release: '2026-12-03', url: '' },
+      { type: 'video', week: 'Fim do ciclo', stage: 'Lançamento',  title: 'Coleção Foco', format: 'Acesso antecipado para membros', release: '2026-12-10', url: '' },
+    ],
+
+    // Textos dos artigos (abertos pelos cards com type: 'article').
     // blocks: { h: 'subtítulo' } ou { p: 'parágrafo' }. quote = frase de destaque no fim.
     articles: [
       {
+        id: 'originalidade',
         label: 'Artigo exclusivo',
         title: 'Originalidade',
         author: 'Thiago Alves Moreira',
@@ -121,15 +130,19 @@ window.VELLAR = {
     // O sorteio acontece somente pelo Instagram (sem botão de WhatsApp).
     drawDate: '',                          // AAAA-MM-DD; vazio = mostra drawNote
     drawNote: 'acompanhe o Instagram',
+    // Links no formato [texto](url). 'group' = convite do grupo da Comunidade (groupInvite).
     steps: [
       'Você já é membro: escaneou o QR Code da sua caixa.',
-      'Siga @vellar.semijoias e @criarecolchoeseacessorios no Instagram.',
+      'Entre no [grupo da Comunidade Vellar no WhatsApp](group).',
+      'Siga [@vellar.semijoias](https://www.instagram.com/vellar.semijoias/) e [@criarecolchoeseacessorios](https://www.instagram.com/criarecolchoeseacessorios/) no Instagram.',
     ],
   },
 
   /* ---------- 4. Empresas parceiras ---------- */
   featuredPartner: {
     name: 'Criare Colchões',
+    logo: 'assets/img/parceiros/logo-criare.jpg',   // logo redonda colorida (slide do card)
+    headerLogo: 'assets/img/parceiros/logo-criare-horizontal-neutra.png', // cabeçalho: versão horizontal, cor areia, fundo transparente (original colorida: logo-criare-horizontal.jpg)
     segment: 'Colchões · Camas · Enxoval',
     city: 'Rua Amazonas, 3815 · Garcia · Blumenau',
     cover: '',   // foto de capa do parceiro (ex.: 'assets/img/parceiros/criare-colchao-cloud.webp'); vazio = a promoção ocupa o topo
@@ -149,16 +162,27 @@ window.VELLAR = {
       highlight: true,   // true = a promoção abre o card do parceiro, com a arte em tamanho grande
       label: 'Promoção exclusiva para membros',
       title: 'Travesseiro não é tudo igual. É tudo pessoal.',
-      text: 'Descubra qual é o seu tipo de descanso e qual travesseiro foi feito pra você. Membros da Comunidade Vellar têm condição especial em travesseiros na Criare.',
-      image: 'assets/img/parceiros/travesseiro-criare.jpg',   // antes: promo-travesseiros.jpg (arte da Criare, guardada sem uso)
+      text: 'Descubra qual é o seu tipo de descanso e qual travesseiro foi feito pra você. Membros da Comunidade Vellar têm condição especial em travesseiro na Criare.',
+      image: 'assets/img/parceiros/travesseiro-criare.jpg',
+      // Slides no topo do card (passam sozinhos). logo: true = mostra a logo redonda centralizada.
+      slides: [
+        { src: 'assets/img/parceiros/logo-criare.jpg', logo: true },
+        { src: 'assets/img/parceiros/travesseiro-criare.jpg' },
+      ],
+      slideSeconds: 2,   // antes: promo-travesseiros.jpg (arte da Criare, guardada sem uso)
       cta: 'Consultar condição',
       msg: 'Olá! Sou membro da Comunidade Vellar e quero saber da promoção de travesseiros.',
     },
     perks: [
-      { tier: 'MEMBRO', type: 'Promoção', text: 'Condição especial em travesseiros' },
+      { tier: 'MEMBRO', type: 'Promoção', text: 'Condição especial em travesseiro' },
       { tier: 'MEMBRO', type: 'Sorteio',  text: 'Travesseiro de brinde no sorteio Vellar × Criare' },
     ],
   },
+
+  // Outros parceiros para o CABEÇALHO do topo (o parceiro em destaque já entra sozinho).
+  // Ex.: { name: 'Nome do parceiro', headerLogo: 'assets/img/parceiros/logo-x.jpg' }
+  // Logo horizontal em PNG transparente, cor areia (#E5D9C5), para ficar neutra como a da Criare.
+  partners: [],
 
   // type: Desconto | Brinde | Sorteio | Experiência | Evento | Acesso antecipado
   // tier: MEMBRO | VIP | BLACK | PRIME

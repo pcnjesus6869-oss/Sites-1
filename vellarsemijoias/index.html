@@ -28,6 +28,17 @@
 
 <body class="bg-obsidian text-beige font-sans antialiased">
 
+  <!-- ================= CABEÇALHO: parceiros Vellar (logos passando) =================
+       Montado pelo js/app.js com o parceiro em destaque + VELLAR.partners -->
+  <div id="partnerBar" class="relative border-b border-sand/10 bg-charcoal/50">
+    <div class="flex items-center">
+      <p class="shrink-0 pl-5 pr-4 py-3 text-[9px] uppercase tracking-[0.35em] text-gold border-r border-sand/10">Parceiros</p>
+      <div class="marquee flex-1 overflow-hidden py-2.5">
+        <div class="marquee-track flex w-max"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= HERO ================= -->
   <header class="relative flex flex-col items-center px-6 pt-14 pb-10 overflow-hidden text-center">
     <div class="hero-glow" aria-hidden="true"></div>
@@ -89,8 +100,6 @@
       <div class="carousel-wrap relative mt-6">
         <div id="contentTrack" class="carousel flex gap-4 overflow-x-auto px-6 pb-4 snap-x snap-mandatory"></div>
       </div>
-      <!-- Artigos em menu suspenso (VELLAR.contents.articles) -->
-      <div id="contentArticles" class="px-6 max-w-xl mx-auto mt-6 space-y-3"></div>
     </section>
 
     <!-- ================= 3. BASTIDORES (Instagram) ================= -->
@@ -189,6 +198,9 @@
     </span>
     <span class="text-sm text-sand font-medium">Concierge</span>
   </a>
+
+  <!-- Leitor de artigo em tela cheia (aberto pelos cards de Conteúdos) -->
+  <div id="articleReader" class="article-reader fixed inset-0 z-[60] overflow-y-auto bg-obsidian" role="dialog" aria-modal="true" aria-label="Artigo" hidden></div>
 
   <div id="toast" class="toast fixed left-1/2 bottom-24 z-50 -translate-x-1/2 rounded-full bg-sand px-5 py-2.5 text-sm font-medium text-obsidian shadow-xl"></div>
 

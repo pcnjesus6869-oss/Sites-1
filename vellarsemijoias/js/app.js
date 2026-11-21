@@ -8,6 +8,9 @@
   const today = new Date();
   // 'group' = convite do grupo (VELLAR.groupInvite); 'whatsapp' = conversa com o Concierge
   const linkTo = (u) => (u === 'group' ? D.groupInvite : u === 'whatsapp' ? wa(D.whatsapp.conciergeMsg) : u);
+  // Texto com links no formato [texto](url) — url pode ser 'group' ou 'whatsapp'
+  const linkify = (s) => esc(s).replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, label, u) =>
+    `<a href="${esc(linkTo(u))}" target="_blank" rel="noopener" class="text-gold underline decoration-gold/40 underline-offset-4 hover:text-sand">${label}</a>`);
 
   /* ---------- Toast ---------- */
   let toastTimer;
@@ -142,29 +145,36 @@
   }
 
   /* ================= 2. CONTEÚDOS EXCLUSIVOS ================= */
+  // Cards de tamanho único (artigo, vídeo ou áudio). Artigo abre em tela cheia.
+  const TYPE = {
+    article: { label: 'Artigo', cta: 'Ler artigo', icon: '<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>' },
+    video:   { label: 'Vídeo',  cta: 'Assistir',   icon: icon('play', 'w-3.5 h-3.5') },
+    audio:   { label: 'Áudio',  cta: 'Ouvir',      icon: icon('play', 'w-3.5 h-3.5') },
+  };
   function renderContents() {
     const c = D.contents;
     $('#contentMonth').textContent = c.month;
     $('#contentIntro').textContent = c.intro;
     const covers = ['photo-3', 'photo-2', 'photo-5', 'photo-1', 'photo-6'];
     $('#contentTrack').innerHTML = c.items.map((it, i) => {
+      const t = TYPE[it.type] || TYPE.video;
       const rel = new Date(`${it.release}T00:00:00-03:00`);
       const open = today >= rel;
       const when = rel.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
       return `
-      <article class="content-card snap-start shrink-0 w-[78%] max-w-[300px] rounded-2xl border border-sand/10 bg-charcoal overflow-hidden ${open ? '' : 'is-locked'}">
+      <article class="content-card snap-start shrink-0 w-[78%] max-w-[300px] flex flex-col rounded-2xl border border-sand/10 bg-charcoal overflow-hidden ${open ? '' : 'is-locked'}">
         <div data-media class="relative aspect-[16/10] photo ${covers[i % covers.length]}">
           <div class="absolute inset-0 bg-gradient-to-t from-charcoal to-transparent"></div>
-          <span class="absolute top-3 left-3 rounded-full bg-obsidian/70 backdrop-blur px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-sand">${esc(it.week)}</span>
+          <span class="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-obsidian/70 backdrop-blur px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-sand">${t.icon} ${esc(t.label)}</span>
           <span class="absolute top-3 right-3 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${open ? 'bg-gold text-obsidian' : 'bg-obsidian/70 text-smoke border border-sand/15'}">${open ? 'Liberado' : 'Em breve'}</span>
           <span class="absolute bottom-2 left-4 font-serif text-5xl text-sand/20">${String(i + 1).padStart(2, '0')}</span>
         </div>
-        <div class="p-5 pt-3">
-          <p class="text-[11px] uppercase tracking-[0.25em] text-gold">${esc(it.stage)}</p>
-          <p class="mt-2 text-beige font-medium leading-snug min-h-[66px]">${esc(it.title)}</p>
+        <div class="flex flex-1 flex-col p-5 pt-3">
+          <p class="text-[11px] uppercase tracking-[0.25em] text-gold truncate">${esc(it.stage)}</p>
+          <p class="content-title mt-2 text-beige font-medium leading-snug">${esc(it.title)}</p>
           <p class="mt-2 text-xs text-smoke">${esc(it.format)}</p>
-          <button class="content-open tap mt-4 w-full rounded-full py-2.5 text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-2 ${open ? 'bg-sand text-obsidian font-semibold' : 'border border-sand/15 text-smoke'}" data-open="${open}" data-url="${esc(it.url)}" data-when="${when}">
-            ${open ? icon('play', 'w-3.5 h-3.5') + ' Acessar' : icon('lock', 'w-3.5 h-3.5') + ' Libera em ' + when}
+          <button class="content-open tap mt-auto w-full rounded-full py-3 pl-[0.2em] text-xs leading-none uppercase tracking-[0.2em] text-center ${open ? 'bg-sand text-obsidian font-semibold' : 'border border-sand/15 text-smoke'}" style="margin-top:1rem" data-open="${open}" data-type="${esc(it.type || 'video')}" data-article="${esc(it.article || '')}" data-url="${esc(it.url || '')}" data-when="${when}">
+            ${open ? esc(t.cta) : 'Libera em ' + when}
           </button>
         </div>
       </article>`;
@@ -174,56 +184,57 @@
       const b = e.target.closest('.content-open');
       if (!b) return;
       if (b.dataset.open !== 'true') return toast(`Este conteúdo libera em ${b.dataset.when}`);
+      if (b.dataset.type === 'article') return openArticle(b.dataset.article);
       if (b.dataset.url) window.open(b.dataset.url, '_blank', 'noopener');
       else toast('Link do conteúdo ainda não configurado');
     });
-
-    renderArticles(c.articles || []);
   }
 
-  // Artigos: menu suspenso que abre o texto formatado como página
-  function renderArticles(list) {
-    const box = $('#contentArticles');
-    if (!list.length) { box.remove(); return; }
-    box.innerHTML = list.map((a) => `
-      <details class="article reveal rounded-2xl border border-sand/10 bg-charcoal overflow-hidden">
-        <summary class="tap flex items-center gap-4 p-5 cursor-pointer select-none">
-          <span class="shrink-0 grid place-items-center w-11 h-11 rounded-full border border-gold/40 text-gold">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>
-          </span>
-          <span class="min-w-0 flex-1">
-            <span class="block text-[10px] uppercase tracking-[0.25em] text-gold">${esc(a.label || 'Artigo')}</span>
-            <span class="block mt-1 font-serif text-lg leading-tight text-sand">${esc(a.title)}</span>
-            <span class="block mt-1 text-xs text-smoke">${esc(a.author)}${a.readTime ? ' · ' + esc(a.readTime) : ''}</span>
-          </span>
-          <svg class="article-chevron shrink-0 w-5 h-5 text-sand/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="m6 9 6 6 6-6"/></svg>
-        </summary>
-        <div class="article-body px-6 pb-8 pt-2 border-t border-sand/10">
-          <header class="pt-6 text-center">
-            <p class="text-[10px] uppercase tracking-[0.35em] text-gold">Comunidade Vellar</p>
-            <h3 class="mt-3 font-serif text-[22px] sm:text-3xl tracking-[0.08em] sm:tracking-[0.15em] text-sand break-words">${esc(a.title).toUpperCase()}</h3>
-            <p class="mt-3 text-xs italic text-smoke">Por ${esc(a.author)}</p>
-            <span class="block mx-auto mt-5 w-10 h-px bg-gold/60"></span>
-          </header>
-          <div class="mt-6">
-            ${a.blocks.map((b) => b.h
-              ? `<h4 class="mt-6 first:mt-0 font-serif text-lg text-sand">${esc(b.h)}</h4>`
-              : `<p class="article-p mt-4 text-[15px] leading-[1.75] text-beige/85">${esc(b.p)}</p>`).join('')}
-          </div>
-          ${a.quote ? `<blockquote class="mt-8 border-l-2 border-gold pl-4 font-serif text-lg italic leading-snug text-sand">${esc(a.quote)}</blockquote>` : ''}
-          <p class="mt-6 text-right text-xs italic text-smoke">— ${esc(a.author)}</p>
-          <button type="button" class="article-close tap mt-8 w-full rounded-full border border-sand/20 py-2.5 text-xs uppercase tracking-[0.2em] text-sand hover:bg-sand hover:text-obsidian">Fechar artigo</button>
+  // Leitor de artigo em tela cheia (formatado como página). Voltar do celular também fecha.
+  function openArticle(id) {
+    const a = (D.contents.articles || []).find((x) => x.id === id);
+    if (!a) return toast('Artigo não encontrado');
+    const box = $('#articleReader');
+    box.innerHTML = `
+      <div class="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-sand/10 bg-obsidian/90 backdrop-blur px-5 py-3">
+        <p class="text-[10px] uppercase tracking-[0.3em] text-gold truncate">${esc(a.label || 'Artigo')}</p>
+        <button type="button" data-close class="tap shrink-0 grid place-items-center w-9 h-9 rounded-full border border-sand/20 text-sand" aria-label="Fechar artigo">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <article class="article-body mx-auto max-w-xl px-6 pb-16">
+        <header class="pt-10 text-center">
+          <p class="text-[10px] uppercase tracking-[0.35em] text-gold">Comunidade Vellar</p>
+          <h2 class="mt-3 font-serif text-[24px] sm:text-4xl tracking-[0.08em] sm:tracking-[0.15em] text-sand break-words">${esc(a.title).toUpperCase()}</h2>
+          <p class="mt-3 text-xs italic text-smoke">Por ${esc(a.author)}${a.readTime ? ' · ' + esc(a.readTime) : ''}</p>
+          <span class="block mx-auto mt-5 w-10 h-px bg-gold/60"></span>
+        </header>
+        <div class="mt-8">
+          ${a.blocks.map((b) => b.h
+            ? `<h3 class="mt-6 first:mt-0 font-serif text-lg text-sand">${esc(b.h)}</h3>`
+            : `<p class="article-p mt-4 text-[15px] sm:text-base leading-[1.8] text-beige/85">${esc(b.p)}</p>`).join('')}
         </div>
-      </details>`).join('');
-
-    box.addEventListener('click', (e) => {
-      const b = e.target.closest('.article-close');
-      if (!b) return;
-      const d = b.closest('details');
-      d.open = false;
-      d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    });
+        ${a.quote ? `<blockquote class="mt-10 border-l-2 border-gold pl-4 font-serif text-lg italic leading-snug text-sand">${esc(a.quote)}</blockquote>` : ''}
+        <p class="mt-6 text-right text-xs italic text-smoke">— ${esc(a.author)}</p>
+        <button type="button" data-close class="tap mt-10 w-full rounded-full border border-sand/20 py-3 text-xs uppercase tracking-[0.2em] text-sand hover:bg-sand hover:text-obsidian">Fechar artigo</button>
+      </article>`;
+    box.hidden = false;
+    box.scrollTop = 0;
+    document.documentElement.classList.add('reader-open');
+    requestAnimationFrame(() => box.classList.add('is-open'));
+    try { history.pushState({ reader: id }, ''); } catch {}
   }
+  function closeArticle(fromHistory) {
+    const box = $('#articleReader');
+    if (box.hidden) return;
+    box.classList.remove('is-open');
+    document.documentElement.classList.remove('reader-open');
+    setTimeout(() => { box.hidden = true; box.innerHTML = ''; }, 300);
+    if (!fromHistory && history.state && history.state.reader) history.back();
+  }
+  document.addEventListener('click', (e) => { if (e.target.closest('#articleReader [data-close]')) closeArticle(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeArticle(false); });
+  window.addEventListener('popstate', () => closeArticle(true));
 
   /* ================= 3. BASTIDORES ================= */
   function renderBastidores() {
@@ -284,7 +295,7 @@
           ${r.steps.map((s, i) => `
             <li class="flex items-start gap-3">
               <span class="shrink-0 grid place-items-center w-6 h-6 rounded-full border border-gold/50 text-[11px] text-gold">${i + 1}</span>
-              <span class="text-sm text-beige/90 leading-snug pt-0.5">${esc(s)}</span>
+              <span class="text-sm text-beige/90 leading-snug pt-0.5">${linkify(s)}</span>
             </li>`).join('')}
         </ol>
         <p class="mt-5 text-xs text-smoke">Data do sorteio: <span class="text-sand">${esc(when)}</span></p>
@@ -312,7 +323,10 @@
 
     // Promoção em destaque: abre o card com a arte grande
     const promoHero = highlight ? `
-      <div class="relative aspect-[4/3] photo" style="background-image:url('${esc(p.promo.image)}')" role="img" aria-label="${esc(p.promo.title)}">
+      <div class="partner-slides relative aspect-[4/3] overflow-hidden bg-obsidian" role="img" aria-label="${esc(p.name)} · ${esc(p.promo.title)}">
+        ${(p.promo.slides || [{ src: p.promo.image }]).map((sl, i) => sl.logo
+          ? `<div class="raffle-slide fast absolute inset-0 grid place-items-center pb-10 bg-white ${i === 0 ? 'is-on' : ''}"><img src="${esc(sl.src)}" alt="Logo ${esc(p.name)}" class="w-[50%] max-w-[240px] aspect-square object-contain" /></div>`
+          : `<div class="raffle-slide fast photo absolute inset-0 ${i === 0 ? 'is-on' : ''}" style="background-image:url('${esc(sl.src)}')"></div>`).join('')}
         <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-charcoal to-transparent"></div>
         <span class="absolute bottom-4 left-4 rounded-full bg-gold px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-obsidian">Parceiro em destaque · ${esc(p.name)}</span>
       </div>
@@ -378,6 +392,37 @@
           </a>` : ''}
         </div>
       </div>`;
+  }
+
+  // Passa os slides de um bloco sozinho (ms = tempo de cada slide)
+  function cycleSlides(root, ms) {
+    if (!root) return;
+    const slides = $$('.raffle-slide', root);
+    if (slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let cur = 0;
+    setInterval(() => {
+      if (document.hidden) return;
+      slides[cur].classList.toggle('is-on', false);
+      cur = (cur + 1) % slides.length;
+      slides[cur].classList.toggle('is-on', true);
+    }, ms);
+  }
+
+  /* ================= Cabeçalho: logos dos parceiros passando ================= */
+  function renderPartnerBar() {
+    const bar = $('#partnerBar');
+    const fp = D.featuredPartner;
+    const list = [fp, ...(D.partners || [])].filter((x) => x && (x.headerLogo || x.logo));
+    if (!list.length) { bar.hidden = true; return; }
+    // repete até encher a faixa; depois duplica para o loop não ter emenda
+    let row = [];
+    while (row.length < 6) row = row.concat(list);
+    const item = (x) => `
+      <a href="#parceiros" class="partner-logo tap shrink-0 flex items-center" aria-label="${esc(x.name)}">
+        <img src="${esc(x.headerLogo || x.logo)}" alt="${esc(x.name)}" class="logo-mono ${x.headerLogo ? 'h-9' : 'h-9 rounded-full'} w-auto" />
+      </a><span class="shrink-0 w-1 h-1 rounded-full bg-gold/40" aria-hidden="true"></span>`;
+    const half = row.map(item).join('');
+    $('.marquee-track', bar).innerHTML = `<div class="flex items-center gap-10 pr-10">${half}</div><div class="flex items-center gap-10 pr-10" aria-hidden="true">${half}</div>`;
   }
 
   const track = () => $('#benefitsTrack');
@@ -529,6 +574,8 @@
   renderBastidores();
   renderRaffle();
   renderFeaturedPartner();
+  cycleSlides($('#featuredPartner .partner-slides'), ((D.featuredPartner.promo && D.featuredPartner.promo.slideSeconds) || 2) * 1000);
+  renderPartnerBar();
   renderPromos();
   renderLinks();
 

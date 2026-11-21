@@ -73,14 +73,25 @@ body { overflow-x: hidden; }
 
 section[id], footer[id] { scroll-margin-top: 12px; }
 
-/* Artigos (menu suspenso) */
-.article summary { list-style: none; }
-.article summary::-webkit-details-marker { display: none; }
-.article-chevron { transition: transform .35s ease; }
-.article[open] .article-chevron { transform: rotate(180deg); }
-.article[open] { border-color: rgba(197,168,128,.35); }
-.article[open] .article-body { animation: articleIn .5s cubic-bezier(.2,.7,.2,1) both; }
-@keyframes articleIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+/* Cards de conteúdo: título com altura fixa (3 linhas) para todos os cards terem o mesmo tamanho */
+.content-title { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: calc(1.375em * 3); }
+
+/* Slides do parceiro (troca mais rápida) */
+.raffle-slide.fast { transition: opacity .6s ease, transform 2.6s ease; }
+
+/* Cabeçalho de parceiros: faixa com logos passando */
+.marquee { -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.marquee-track { animation: marquee 28s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+/* Logos do cabeçalho: PNG transparente em tom areia (neutro, coerente com o site) */
+.logo-mono { opacity: .85; transition: opacity .3s ease; }
+.partner-logo:hover .logo-mono { opacity: 1; }
+
+/* Leitor de artigo (tela cheia) */
+.article-reader { opacity: 0; transform: translateY(16px); transition: opacity .3s ease, transform .3s cubic-bezier(.2,.7,.2,1); -webkit-overflow-scrolling: touch; }
+.article-reader.is-open { opacity: 1; transform: none; }
+html.reader-open, html.reader-open body { overflow: hidden; }
 .article-body .article-p:first-of-type::first-letter { float: left; font-family: Cinzel, serif; font-size: 3.1em; line-height: .85; padding: 4px 8px 0 0; color: #C5A880; }
 
 /* Flechas sobrepostas aos cards */
