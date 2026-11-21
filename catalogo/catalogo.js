@@ -13,15 +13,16 @@ const foto = id => `https://images.unsplash.com/photo-${id}?w=700&q=70&auto=form
 
 const CATALOGO = [
   { id: 'colchoes', nome: 'Colchões', itens: [
-    { nome: 'Colchão de espuma', desc: 'Sustentação uniforme, com a densidade certa para o seu peso.', foto: foto('1635594202056-9ea3b497e5c0') },
+    { nome: 'Colchão de espuma', desc: 'Sustentação uniforme, com a densidade certa para o seu peso.', foto: 'assets/produtos/colchao-espuma.webp' },
     { nome: 'Colchão de molas ensacadas', desc: 'Molas independentes que acompanham o corpo e ventilam melhor.', foto: foto('1759176170912-3b192e8d14b0') },
     { nome: 'Colchão com pillow top', desc: 'Camada extra de conforto para uma superfície mais macia.', foto: foto('1759176170553-7c078c66c514') },
-    { nome: 'Colchão sob medida', desc: 'Produzido nas medidas e na firmeza que você precisa.', foto: foto('1617325247661-675ab4b64ae2') },
+    { nome: 'Colchão sob medida', desc: 'Produzido nas medidas e na firmeza que você precisa.', foto: 'assets/produtos/colchao-sob-medida.webp?v=2' },
   ]},
   { id: 'travesseiros', nome: 'Travesseiros', itens: [
-    { nome: 'Travesseiro de fibra', desc: 'Macio e leve, para quem gosta de afundar a cabeça.', foto: foto('1620751852890-a89137ec78b9') },
-    { nome: 'Travesseiro viscoelástico', desc: 'Molda-se ao pescoço e volta devagar à forma original.', foto: foto('1600414428640-f78a67c2aa3b') },
-    { nome: 'Travesseiro de espuma', desc: 'Mais firme e estável, mantém a altura durante a noite.', foto: foto('1584100936595-c0654b55a2e2') },
+    { nome: 'Travesseiro de fibra', desc: 'Macio e leve, para quem gosta de afundar a cabeça.', foto: 'assets/produtos/travesseiro-fibra.webp' },
+    { nome: 'Travesseiro viscoelástico', desc: 'Molda-se ao pescoço e volta devagar à forma original.', foto: 'assets/produtos/travesseiro-viscoelastico.webp' },
+    { nome: 'Travesseiro de espuma', desc: 'Mais firme e estável, mantém a altura durante a noite.', foto: 'assets/produtos/travesseiro-espuma.webp' },
+    { nome: 'Travesseiro cervical', desc: 'Formato anatômico que ajuda a alinhar pescoço e coluna enquanto você dorme.', foto: 'assets/produtos/travesseiro-cervical.webp' },
   ]},
   { id: 'almofadas', nome: 'Almofadas', itens: [
     { nome: 'Almofadas decorativas', desc: 'Cores e texturas para completar a cama e o sofá.', foto: foto('1553114552-c4ece3a33c93') },
@@ -29,14 +30,16 @@ const CATALOGO = [
     { nome: 'Enchimento de almofada', desc: 'Refil que devolve o volume às almofadas que você já tem.', foto: foto('1629949008265-af1bcaf59786') },
   ]},
   { id: 'roupagem', nome: 'Roupagem de cama', itens: [
-    { nome: 'Lençóis', desc: 'Tecidos agradáveis ao toque, nas medidas do seu colchão.', foto: foto('1598535746036-87d13382f6a6') },
-    { nome: 'Jogos de cama', desc: 'Lençol, elástico e fronhas combinando.', foto: foto('1762199904138-d163fe89540a') },
-    { nome: 'Edredons', desc: 'Aconchego e acabamento para a cama nas noites frias.', foto: foto('1762199904500-266a6bd4e243') },
+    { nome: 'Lençóis', desc: 'Tecidos agradáveis ao toque, nas medidas do seu colchão.', foto: 'assets/produtos/lencol.webp' },
+    { nome: 'Jogos de cama', desc: 'Lençol, elástico e fronhas combinando.', foto: 'assets/produtos/jogo-de-cama.webp' },
+    { nome: 'Edredons', desc: 'Aconchego e acabamento para a cama nas noites frias.', foto: 'assets/produtos/edredom.webp' },
+    { nome: 'Linha Basic', desc: 'Roupa de cama prática para o dia a dia, com ótimo custo-benefício.', foto: 'assets/produtos/linha-basic.webp' },
+    { nome: 'Linha Premium', desc: 'Tecidos mais nobres e acabamento caprichado para uma cama de hotel.', foto: 'assets/produtos/linha-premium.webp' },
   ]},
   { id: 'acessorios', nome: 'Outros acessórios', itens: [
-    { nome: 'Protetor de colchão', desc: 'Protege contra suor e sujeira e pode ser lavado.', foto: foto('1759176170879-6bd7073ab4f4') },
-    { nome: 'Protetor de travesseiro', desc: 'Prolonga a vida útil do travesseiro.', foto: foto('1539438050859-39219d86bde8') },
-    { nome: 'Cobertores', desc: 'Leves ou mais encorpados, para cada estação.', foto: foto('1734553529922-bc020a21643b') },
+    { nome: 'Protetor de colchão', desc: 'Protege contra suor e sujeira e pode ser lavado.', foto: 'assets/produtos/protetor-colchao.webp' },
+    { nome: 'Protetor de travesseiro', desc: 'Prolonga a vida útil do travesseiro.', foto: 'assets/produtos/protetor-travesseiro.webp' },
+    { nome: 'Cobertores', desc: 'Leves ou mais encorpados, para cada estação.', foto: 'assets/produtos/cobertor.webp' },
   ]},
 ];
 
@@ -49,7 +52,7 @@ document.getElementById('atalhos').innerHTML = CATALOGO
 document.getElementById('vitrines').innerHTML = CATALOGO.map(c => `
   <section id="${c.id}" class="vitrine">
     <h3>${c.nome}</h3>
-    <ul class="grade" style="--colunas: ${c.itens.length}">
+    <ul class="grade" style="--colunas: ${c.itens.length <= 4 ? c.itens.length : 3}">
       ${c.itens.map(p => `
         <li class="produto">
           <div class="produto-foto"><img src="${p.foto}" alt="" loading="lazy"></div>
